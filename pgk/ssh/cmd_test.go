@@ -3,11 +3,9 @@ package ssh
 import (
 	"testing"
 	"time"
-
-	"golang.org/x/crypto/ssh"
 )
 
-func TestSSH_NewSession(t *testing.T) {
+func TestSSH_Cmd(t *testing.T) {
 	type fields struct {
 		User       string
 		Password   string
@@ -17,19 +15,19 @@ func TestSSH_NewSession(t *testing.T) {
 	}
 	type args struct {
 		host string
+		cmd  string
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *ssh.Session
-		wantErr bool
+		name   string
+		fields fields
+		args   args
+		want   string
 	}{
 		// TODO: Add test cases.
 		{
 			name: "test",
 			fields: fields{
-				User:       "root",
+				User:       "c",
 				Password:   "c",
 				PkFile:     "",
 				PkPassword: "",
@@ -37,8 +35,8 @@ func TestSSH_NewSession(t *testing.T) {
 			},
 			args: args{
 				host: "10.67.15.212",
+				cmd:  "ls",
 			},
-			wantErr: false,
 		},
 	}
 	for _, tt := range tests {
@@ -50,11 +48,8 @@ func TestSSH_NewSession(t *testing.T) {
 				PkPassword: tt.fields.PkPassword,
 				Timeout:    tt.fields.Timeout,
 			}
-			got, err := ss.NewSession(tt.args.host)
-			t.Logf("%v", got)
-			if (err != nil) != tt.wantErr {
-				t.Errorf("SSH.NewSession() error = %v, wantErr %v", err, tt.wantErr)
-				return
+			if got := ss.Cmd(tt.args.host, tt.args.cmd); got != tt.want {
+				t.Errorf("SSH.Cmd() = %v, want %v", got, tt.want)
 			}
 		})
 	}
