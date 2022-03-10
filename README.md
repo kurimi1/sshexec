@@ -1,5 +1,6 @@
 # sshexec
 
+已迁移至https://github.com/kurimi1/Kutils  
 使用SSH远程执行命令框架 | Remote command execution framework using SSH
 
 ## features
